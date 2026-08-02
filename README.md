@@ -1,225 +1,115 @@
-# Susalud Digital - Arquitectura y Guía de Desarrollo
+# Observatorio SUSALUD Digital - Sistema de Monitoreo de Clínicas e IPRESS
 
-Repositorio del proyecto Susalud Digital, un sistema de gestión de expedientes médicos electrónicos y procesos de atención. Este repositorio contiene la arquitectura del proyecto, guías de desarrollo, y ejemplos de desarrollo con IA.
+Plataforma web interactiva para la supervisión de la atención en salud, registro de reclamos, sanciones y negligencias médicas sancionadas por la **Superintendencia Nacional de Salud (SUSALUD)** y el registro **RENIPRESS**.
+
+---
 
 ## 📋 Índice
 
 - [Visión General](#-visión-general)
-- [Arquitectura](#-arquitectura)
-- [Guías de Desarrollo](#-guías-de-desarrollo)
-- [Ejemplos con IA](#-ejemplos-con-ia)
-- [Contribuir](#-contribuir)
+- [Arquitectura de Dominios](#-arquitectura-de-dominios)
+- [Documentación Técnica (docs/)](#-documentación-técnica-docs)
+- [Instalación y Uso](#-instalación-y-uso)
+- [Diagramas de Arquitectura](#-diagramas-de-arquitectura)
+- [Licencia](#-licencia)
 
 ---
 
 ## 👁️ Visión General
 
-Susalud Digital es una plataforma integral para la gestión de expedientes médicos electrónicos y procesos clínicos. El proyecto está estructurado en módulos de Microfrontend para facilitar el escalamiento y mantenimiento.
+El **Observatorio SUSALUD Digital** ofrece un dashboard interactivo de analítica de datos abiertos para la ciudadanía, investigadores y fiscalizadores.
 
-### Módulos
-
-- **`apps`**: Aplicaciones principales del sistema
-  - **`susalud-app`**: Aplicación principal
-  - **`susalud-web`**: Aplicación web
-  - **`susalud-api`**: API RESTful
-  - **`susalud-db`**: Configuración de base de datos
-  - **`susalud-test`**: Tests y validaciones
-- **`packages`**: Componentes y utilidades compartidas
-  - **`susalud-component-library`**: Librería de componentes UI
-  - **`susalud-core-utils`**: Utilidades core
-  - **`susalud-design-system`**: Sistema de diseño y temas
-  - **`susalud-form-utils`**: Utilidades para formularios
-  - **`susalud-http`**: Cliente HTTP
-  - **`susalud-icons`**: Librería de iconos
-  - **`susalud-notifications`**: Notificaciones y alertas
-  - **`susalud-routes`**: Configuración de rutas
-  - **`susalud-storage`**: Manejo de almacenamiento local
-  - **`susalud-theme`**: Temas y estilos
-  - **`susalud-types`**: Definiciones de tipos
-  - **`susalud-ui`**: Componentes de UI
-- **`tools`**: Herramientas y utilidades del proyecto
+### Características Clave:
+- 📊 **Métricas Consolidadas**: Total de reclamos, negligencias confirmadas, sanciones y cálculo acumulado en **UIT (S/ 5,350 para 2026)**.
+- 🏥 **Ranking e Historial por IPRESS**: Visualización gráfica y detallada del historial de sanciones de clínicas a nivel nacional.
+- 🗺️ **Distribución Departamental e Infracciones**: Desglose por regiones y clasificación del tipo de infracción cometida.
+- 🗓️ **Filtros Temporales Multidimensionales**: Filtrado en tiempo real por **Año (2024, 2025, 2026)**, **Trimestre (Q1, Q2, Q3, Q4)** y **Mes**.
+- 🛠️ **Consola de API de Datos Abiertos**: Herramienta de pruebas de conectividad y latencia contra los endpoints de `datosabiertos.gob.pe`.
 
 ---
 
-## 📐 Arquitectura
+## 📐 Arquitectura de Dominios
 
-El proyecto sigue una arquitectura de Microfrontend con una organización modular y capas bien definidas.
-
-### Estructura de Directorios
+El proyecto sigue una **Arquitectura Guiada por Dominios en el Frontend (Domain-Driven Frontend Architecture)**:
 
 ```
-/
-├── apps/                   # Aplicaciones principales
-│   ├── susalud-app/        # Aplicación principal
-│   ├── susalud-web/        # Aplicación web
-│   ├── susalud-api/        # API RESTful
-│   ├── susalud-db/         # Configuración de base de datos
-│   └── susalud-test/       # Tests y validaciones
-├── packages/               # Librerías compartidas
-│   ├── susalud-component-library/
-│   ├── susalud-core-utils/
-│   ├── susalud-design-system/
-│   ├── susalud-form-utils/
-│   ├── susalud-http/
-│   ├── susalud-icons/
-│   ├── susalud-notifications/
-│   ├── susalud-routes/
-│   ├── susalud-storage/
-│   ├── susalud-theme/
-│   ├── susalud-types/
-│   └── susalud-ui/
-└── tools/                  # Herramientas del proyecto
+susalud-monitor-webapp/
+├── docs/                           # Documentación técnica y de arquitectura
+│   ├── architecture.md             # Diseño de software y diagramas
+│   ├── domain-model.md             # Modelo de dominio y reglas de cálculo
+│   ├── visual-design.md            # Tokens visuales y sistema de diseño
+│   └── api-guide.md                # Integración API y resiliencia
+├── src/
+│   ├── domains/                    # Módulos aislados por dominio
+│   │   ├── clinics/                # Dominio de Clínicas / IPRESS
+│   │   ├── metrics/                # Dominio de Métricas Nacionales
+│   │   ├── filters/                # Dominio de Filtros Temporales
+│   │   └── api-console/            # Dominio de Consola de Monitoreo API
+│   ├── shared/                     # Componentes y estilos compartidos
+│   │   ├── components/
+│   │   └── styles/
+│   ├── App.jsx                     # Orquestador Principal
+│   └── main.jsx
 ```
 
-### Diagrama de Capas
+---
+
+## 📚 Documentación Técnica (docs/)
+
+Para profundizar en el diseño del sistema, consulta los siguientes manuales en la carpeta `docs/`:
+
+1. 🏛️ [Arquitectura de Software](file:///c:/labs/susalud/docs/architecture.md)
+2. 🏬 [Modelo de Dominio y Reglas de Negocio](file:///c:/labs/susalud/docs/domain-model.md)
+3. 🎨 [Sistema de Diseño Visual y UX](file:///c:/labs/susalud/docs/visual-design.md)
+4. 🌐 [Guía de Integración API y Resiliencia](file:///c:/labs/susalud/docs/api-guide.md)
+
+---
+
+## 📊 Diagramas de Arquitectura
+
+### Diagrama de Flujo de Datos
 
 ```mermaid
 graph TD
-    User[Usuario] -->|HTTP/HTTPS| Frontend[Frontend] & Mobile[Mobile]
-    Frontend -->|API Calls| API[API RESTful]
-    Mobile -->|API Calls| API
-    API -->|Queries| DB[Base de Datos]
+    User["Usuario"] -->|Filtros / Búsqueda| UI["Frontend React UI"]
+    UI -->|Invoke| Hook["useClinics Custom Hook"]
+    Hook -->|Query| ClinicService["clinicService (Procesamiento)"]
+    ClinicService -->|Read| Dataset["Dataset Oficial SUSALUD"]
+    Hook -->|Calculate| MetricsService["metricsService (UIT 2026)"]
+    MetricsService -->|Render| UI
     
-    subgraph Frontend [Frontend Layer]
-        Frontend
-        ComponentLibrary[Librería de Componentes]
-        DesignSystem[Sistema de Diseño]
-        Theme[Temas y Estilos]
-        Icons[Iconos]
+    subgraph LiveAPI ["Integración Opcional Live API"]
+        Hook -.->|Fetch GET| CKAN["datosabiertos.gob.pe"]
     end
-    
-    subgraph Backend [Backend Layer]
-        API
-        Auth[Autenticación]
-        Users[Gestión de Usuarios]
-        MedicalRecords[Expedientes Médicos]
-        Appointments[Citas]
-        Billing[Facturación]
-    end
-    
-    ComponentLibrary --- DesignSystem
-    DesignSystem --- Theme
-    Theme --- Icons
-    API --- Auth
-    API --- Users
-    API --- MedicalRecords
-    API --- Appointments
-    API --- Billing
 ```
-
-### Tecnologías Utilizadas
-
-- **Frontend**: React, Next.js, TypeScript
-- **Mobile**: React Native, Expo
-- **Backend**: Node.js, Express, NestJS
-- **Database**: PostgreSQL
-- **Testing**: Jest, React Testing Library
-- **Containerization**: Docker, Docker Compose
 
 ---
 
-## 🚀 Guías de Desarrollo
+## 🚀 Instalación y Uso
 
-### Configuración del Entorno
+### Requisitos Previos
+- **Node.js**: v18.x o superior
+- **npm**: v9.x o superior
 
-#### Requisitos Previos
+### Pasos de Ejecución
 
-- Node.js 18.x o superior
-- npm 9.x o superior
-- Docker y Docker Compose (opcional)
-
-#### Instalación
-
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/susalud-digital/susalud-digital.git
-   cd susalud-digital
-   ```
-
-2. Instalar dependencias:
+1. **Instalar dependencias**:
    ```bash
    npm install
    ```
 
-### Desarrollo de Aplicaciones
+2. **Iniciar servidor de desarrollo**:
+   ```bash
+   npm run dev
+   ```
 
-#### Aplicación Principal (`apps/susalud-app`)
+3. **Construir para producción**:
+   ```bash
+   npm run build
+   ```
 
-```bash
-cd apps/susalud-app
-npm run dev
-```
+---
 
-#### API RESTful (`apps/susalud-api`)
+## 📜 Licencia
 
-```bash
-cd apps/susalud-api
-npm run dev
-```
-
-#### Mobile (`apps/susalud-mobile`)
-
-```bash
-cd apps/susalud-mobile
-npm start
-```
-
-### Desarrollo de Componentes
-
-#### Librería de Componentes (`packages/susalud-component-library`)
-
-```bash
-cd packages/susalud-component-library
-npm run dev
-```
-
-#### Sistema de Diseño (`packages/susalud-design-system`)
-
-```bash
-cd packages/susalud-design-system
-npm run dev
-```
-
-### Flujo de Trabajo
-
-1. **Desarrollo de Frontend**:
-   - Crear nuevas páginas en `apps/susalud-app/src/pages`
-   - Agregar componentes en `apps/susalud-app/src/components`
-   - Crear servicios en `apps/susalud-app/src/services`
-
-2. **Desarrollo de API**:
-   - Agregar nuevos endpoints en `apps/susalud-api/src/controllers`
-   - Crear modelos en `apps/susalud-api/src/models`
-   - Agregar servicios en `apps/susalud-api/src/services`
-
-3. **Desarrollo de Componentes**:
-   - Agregar nuevos componentes en `packages/susalud-component-library/src/components`
-   - Actualizar el sistema de diseño en `packages/susalud-design-system`
-
-### Convenciones de Código
-
-- **TypeScript**: Todas las aplicaciones deben usar TypeScript
-- **Nomenclatura**: `kebab-case` para archivos, `PascalCase` para componentes, `camelCase` para funciones
-- **Estructura de Componentes**:
-  ```typescript
-  // packages/susalud-component-library/src/components/Button/Button.tsx
-  import React from 'react';
-  import { Button as UIButton, ButtonProps as UIButtonProps } from 'ui';
-  import { useDesignSystem } from '../../hooks/useDesignSystem';
-  import styles from './Button.module.scss';
-
-  interface ButtonProps extends UIButtonProps {
-    /**
-     * Tipo de botón
-     * @default 'primary'
-     */
-    variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-    /**
-     * Tamaño del botón
-     * @default 'md'
-     */
-    size?: 'sm' | 'md' | 'lg';
-    /**
-     * Texto del botón
-     */
-    children: React.React
+Desarrollado como iniciativa de código abierto para el **Observatorio de Salud y Datos Abiertos del Perú** (2026).
